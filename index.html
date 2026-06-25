@@ -42,6 +42,43 @@
             z-index: 0;
         }
 
+        /* BANDEAU CHRONO FLASHY */
+        .timer-overlay {
+            display: none;
+            width: 100%;
+            max-width: 500px;
+            background: #f39c12;
+            color: #111;
+            font-family: 'Oswald', sans-serif;
+            text-align: center;
+            padding: 12px;
+            font-size: 1.1em;
+            font-weight: bold;
+            border-radius: 4px;
+            margin-bottom: 12px;
+            box-shadow: 0 4px 15px rgba(243, 156, 18, 0.4);
+            border: 2px solid #d35400;
+            z-index: 10;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .timer-overlay .big-countdown {
+            font-size: 2.2em;
+            font-family: 'Oswald', sans-serif;
+            font-weight: 500;
+            color: #000;
+            letter-spacing: 2px;
+            line-height: 1;
+            animation: pulseText 1s infinite alternate;
+        }
+
+        @keyframes pulseText {
+            from { transform: scale(1); opacity: 0.9; }
+            to { transform: scale(1.05); opacity: 1; }
+        }
+
         .ticket {
             background: var(--cream);
             width: 100%;
@@ -84,27 +121,6 @@
             border-bottom: 3px solid var(--gold);
         }
 
-        .header::before, .header::after {
-            content: '♥';
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 1.5em;
-            color: rgba(201,168,76,0.4);
-        }
-        .header::before { left: 14px; }
-        .header::after { right: 14px; }
-
-        .header-sub {
-            font-family: 'Oswald', sans-serif;
-            font-weight: 300;
-            letter-spacing: 0.35em;
-            font-size: 0.62em;
-            color: var(--gold-light);
-            text-transform: uppercase;
-            margin-bottom: 4px;
-        }
-
         .header h1 {
             font-family: 'Playfair Display', serif;
             font-size: 2.4em;
@@ -114,8 +130,16 @@
             line-height: 1;
             text-shadow: 0 2px 8px rgba(0,0,0,0.6);
         }
-
         .header h1 span { color: white; }
+        .header-sub {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 300;
+            letter-spacing: 0.35em;
+            font-size: 0.62em;
+            color: var(--gold-light);
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
 
         .body {
             padding: 16px 14px;
@@ -139,7 +163,6 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: background 0.4s;
         }
 
         .section-title {
@@ -162,18 +185,8 @@
             background: linear-gradient(to right, transparent, var(--gold), transparent);
         }
 
-        .grid-winning {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 6px;
-            margin-bottom: 4px;
-        }
-
-        .grid-player {
-            display: grid;
-            grid-template-columns: repeat(6, 1fr);
-            gap: 5px;
-        }
+        .grid-winning { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-bottom: 4px; }
+        .grid-player { display: grid; grid-template-columns: repeat(6, 1fr); gap: 5px; }
 
         .card {
             aspect-ratio: 2/2.8;
@@ -188,13 +201,7 @@
             justify-content: center;
             font-size: 0.82em;
             box-shadow: 0 2px 4px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.8);
-            transition: transform 0.15s, box-shadow 0.15s;
             overflow: hidden;
-        }
-
-        .card:not(.scratched):hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
 
         .card .cover {
@@ -206,35 +213,19 @@
             align-items: center;
             justify-content: center;
             border-radius: 3px;
-            transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.35s;
-            transform-origin: top;
         }
 
-        .cover-icon {
-            font-size: 1.4em;
-            opacity: 0.7;
-            filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3));
-        }
+        .cover-icon { font-size: 1.4em; opacity: 0.7; }
+        .card.scratched .cover { display: none; }
 
-        .card.scratched .cover {
-            transform: rotateX(90deg) scaleY(0);
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        .card.is-ace-win {
-            border-color: var(--gold);
-            background: #fffdf0;
-        }
-
-        .card.win-highlight {
-            border-color: var(--crimson) !important;
-            box-shadow: 0 0 0 2px var(--crimson), 0 4px 12px rgba(176,27,27,0.3) !important;
-        }
-
-        .card.ace-highlight {
-            border-color: #27ae60 !important;
-            box-shadow: 0 0 0 2px #27ae60, 0 4px 12px rgba(39,174,96,0.3) !important;
+        .card.is-ace-win { border-color: var(--gold); background: #fffdf0; }
+        .card.win-highlight { border-color: var(--crimson) !important; box-shadow: 0 0 0 2px var(--crimson) !important; }
+        .card.ace-highlight { border-color: #27ae60 !important; box-shadow: 0 0 0 2px #27ae60 !important; }
+        
+        .card.timer-active {
+            border-color: #f39c12 !important;
+            background: #fff5e6 !important;
+            box-shadow: 0 0 8px #f39c12 !important;
         }
 
         .card.ace-coeur-glow {
@@ -242,46 +233,16 @@
             animation: aceGlow 1.5s infinite alternate ease-in-out;
         }
 
-        .card.timer-active {
-            animation: pulseTimer 1s infinite linear;
-            border-color: #f39c12 !important;
-            background: #fff5e6 !important;
-        }
-
         @keyframes aceGlow {
-            0% { transform: scale(1); box-shadow: 0 0 10px var(--crimson-light), inset 0 0 5px rgba(255, 215, 0, 0.4); }
-            100% { transform: scale(1.05); box-shadow: 0 0 25px var(--crimson-light), 0 0 15px var(--gold), inset 0 0 15px rgba(255, 215, 0, 0.8); }
+            0% { transform: scale(1); box-shadow: 0 0 10px var(--crimson-light); }
+            100% { transform: scale(1.05); box-shadow: 0 0 25px var(--crimson-light); }
         }
 
-        @keyframes pulseTimer {
-            0% { box-shadow: 0 0 5px #f39c12; }
-            50% { box-shadow: 0 0 15px #f39c12; }
-            100% { box-shadow: 0 0 5px #f39c12; }
-        }
+        .symbol { font-size: 1.1em; font-weight: 700; font-family: 'Playfair Display', serif; }
+        .minutes { color: var(--crimson-deep); font-size: 0.6em; font-family: 'Oswald', sans-serif; margin-top: 2px; }
 
-        .symbol {
-            font-size: 1.1em;
-            font-weight: 700;
-            line-height: 1.1;
-            font-family: 'Playfair Display', serif;
-        }
-
-        .minutes {
-            color: var(--crimson-deep);
-            font-size: 0.6em;
-            font-family: 'Oswald', sans-serif;
-            font-weight: 300;
-            letter-spacing: 0.05em;
-            margin-top: 2px;
-            text-align: center;
-        }
-
-        .heart-wrapper {
-            display: flex;
-            justify-content: center;
-            margin: 4px 0;
-        }
-
+        /* RECONSTRUCTION DU COEUR CENTRAL D'ORIGINE */
+        .heart-wrapper { display: flex; justify-content: center; margin: 4px 0; }
         .heart-container {
             width: 80px;
             height: 80px;
@@ -293,28 +254,17 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.2), 0 0 0 1px rgba(201,168,76,0.2);
-            transition: transform 0.2s, box-shadow 0.2s;
-            overflow: hidden;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.2);
         }
 
-        .heart-container:not(.disabled):hover {
-            transform: scale(1.05);
-            box-shadow: 0 6px 24px rgba(176,27,27,0.35), 0 0 0 1px var(--gold);
-        }
+        .heart-container:not(.disabled):hover { transform: scale(1.05); }
 
-        .heart-container.disabled {
-            cursor: not-allowed;
-            opacity: 0.5;
-            filter: grayscale(0.4);
-        }
-
-        .heart-img {
-            width: 70%;
-            height: auto;
-            transition: opacity 0.4s, transform 0.4s;
-            pointer-events: none;
-            object-fit: contain;
+        .heart-svg {
+            width: 50px;
+            height: 50px;
+            fill: var(--crimson);
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+            transition: opacity 0.3s, transform 0.3s;
         }
 
         .heart-reveal {
@@ -326,17 +276,10 @@
             font-size: 2.6em;
             opacity: 0;
             z-index: 1;
-            transition: opacity 0.4s;
         }
 
-        .scratched-heart .heart-img {
-            opacity: 0;
-            transform: scale(0.6);
-        }
-
-        .scratched-heart .heart-reveal {
-            opacity: 1;
-        }
+        .scratched-heart .heart-svg { opacity: 0; transform: scale(0.5); }
+        .scratched-heart .heart-reveal { opacity: 1; }
 
         .result-panel {
             margin-top: 14px;
@@ -345,57 +288,14 @@
             border: 1px solid var(--gold-dark);
             border-radius: 4px;
             text-align: center;
-            box-shadow: inset 0 1px 3px rgba(0,0,0,0.06);
         }
 
-        .result-label {
-            font-family: 'Oswald', sans-serif;
-            font-weight: 300;
-            letter-spacing: 0.25em;
-            font-size: 0.62em;
-            text-transform: uppercase;
-            color: var(--crimson-deep);
-            margin-bottom: 4px;
-        }
+        .result-label { font-family: 'Oswald', sans-serif; font-size: 0.62em; letter-spacing: 0.25em; text-transform: uppercase; color: var(--crimson-deep); }
+        .result-value { display: flex; align-items: baseline; justify-content: center; gap: 6px; }
+        #total-min { font-family: 'Playfair Display', serif; font-size: 3em; font-weight: 900; color: var(--crimson); line-height: 1; }
+        .result-unit::before { content: 'min'; font-family: 'Oswald', sans-serif; font-size: 0.9em; color: #999; text-transform: uppercase; }
 
-        .result-value {
-            display: flex;
-            align-items: baseline;
-            justify-content: center;
-            gap: 6px;
-        }
-
-        #total-min {
-            font-family: 'Playfair Display', serif;
-            font-size: 3em;
-            font-weight: 900;
-            color: var(--crimson);
-            line-height: 1;
-        }
-
-        .result-unit {
-            font-family: 'Oswald', sans-serif;
-            font-weight: 300;
-            font-size: 0.9em;
-            color: #999;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-        }
-
-        .result-unit::before {
-            content: 'min';
-        }
-
-        #bonus-status {
-            margin-top: 8px;
-            font-family: 'Oswald', sans-serif;
-            font-weight: 500;
-            font-size: 0.78em;
-            letter-spacing: 0.06em;
-            color: var(--crimson-deep);
-            min-height: 2.4em;
-            line-height: 1.5;
-        }
+        #bonus-status { margin-top: 8px; font-family: 'Oswald', sans-serif; font-size: 0.78em; color: var(--crimson-deep); min-height: 2.4em; }
 
         .btn-new-game {
             margin-top: 24px;
@@ -404,45 +304,25 @@
             border: 2px solid var(--gold);
             color: var(--gold-light);
             font-family: 'Oswald', sans-serif;
-            font-weight: 500;
-            letter-spacing: 0.2em;
-            font-size: 0.78em;
             text-transform: uppercase;
-            border-radius: 2px;
             cursor: pointer;
-            position: relative;
-            z-index: 1;
-            overflow: hidden;
-            transition: color 0.3s;
         }
-
-        .btn-new-game::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: var(--gold);
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.3s;
-            z-index: -1;
-        }
-
-        .btn-new-game:hover { color: var(--ink); }
-        .btn-new-game:hover::before { transform: scaleX(1); }
+        .btn-new-game:hover { background: var(--gold); color: var(--ink); }
 
         .disabled { pointer-events: none; opacity: 0.45; }
         .locked { pointer-events: none !important; }
-
-        .ticket { animation: fadeUp 0.6s ease both; }
-        .btn-new-game { animation: fadeUp 0.6s 0.3s ease both; }
-
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(16px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
     </style>
 </head>
 <body>
+
+<!-- BANDEAU CHRONO ULTRA VISIBLE -->
+<div id="big-timer-banner" class="timer-overlay">
+    <span>⏳ MASTURBATION OBLIGATOIRE EN COURS</span>
+    <div id="big-countdown-value" class="big-countdown">0:00</div>
+    <button id="skip-btn" style="background: rgba(0,0,0,0.7); border: 1px solid #fff; color: white; padding: 4px 12px; font-size: 0.75em; border-radius: 3px; cursor: pointer; margin-top: 4px; font-family: 'Oswald', sans-serif; text-transform: uppercase;">
+        ⏩ Passer le chrono
+    </button>
+</div>
 
 <div class="ticket" id="game-ticket">
     <div class="perf-top"></div>
@@ -461,10 +341,11 @@
         <div class="section-title">Le Cœur Central</div>
         <div class="heart-wrapper">
             <div id="heart-trigger" class="heart-container disabled" onclick="scratchHeart()">
-                <img src="coeur.png" alt="Cœur central" class="heart-img"
-                    onerror="this.style.display='none'; this.nextElementSibling.style.opacity='0.25'; this.parentElement.querySelector('.heart-fallback').style.display='flex'">
+                <!-- RETOUR AU RECONSTRUC-DESIGN D'ORIGINE -->
+                <svg class="heart-svg" viewBox="0 0 32 32">
+                    <path d="M16 28.5C16 28.5 2 20.5 2 11.5C2 6.5 6 3.5 10.5 3.5C13.5 3.5 15.2 5.2 16 6.2C16.8 5.2 18.5 3.5 21.5 3.5C26 3.5 30 6.5 30 11.5C30 20.5 16 28.5 16 28.5Z"/>
+                </svg>
                 <div class="heart-reveal" id="heart-content"></div>
-                <div class="heart-fallback" style="display:none; position:absolute; inset:0; align-items:center; justify-content:center; font-size:2.8em; opacity:0.4;">♥</div>
             </div>
         </div>
 
@@ -627,26 +508,29 @@
 
     function startMasturbationTimer(minutes, cardIndex) {
         isTimerRunning = true;
-        document.getElementById('player-zone').classList.add('disabled');
         
-        let secondsLeft = minutes * 60;
+        const playerZone = document.getElementById('player-zone');
+        const banner = document.getElementById('big-timer-banner');
+        const bigCountdown = document.getElementById('big-countdown-value');
         const timeDisplay = document.getElementById(`time-display-${cardIndex}`);
         const cardEl = document.getElementById(`p-card-${cardIndex}`);
-        const instructionEl = document.getElementById('instruction');
         
+        playerZone.classList.add('disabled');
         cardEl.classList.add('timer-active');
         
-        instructionEl.innerHTML = `
-            <div style="display: flex; flex-direction: column; align-items: center; gap: 5px; width: 100%;">
-                <span>⏳ <b>MASTURBATION EN COURS :</b> Restez concentré...</span>
-                <button id="skip-btn" style="background: rgba(255,255,255,0.2); border: 1px solid var(--gold-light); color: white; padding: 2px 8px; font-size: 0.8em; border-radius: 3px; cursor: pointer; font-family: 'Oswald', sans-serif;">
-                    ⏩ Passer le chrono
-                </button>
-            </div>
-        `;
+        // Affichage de l'énorme bandeau chrono tout en haut
+        banner.style.display = 'flex';
+        
+        let secondsLeft = minutes * 60;
+        
+        // Init affichage immédiat
+        let initM = Math.floor(secondsLeft / 60);
+        let initS = secondsLeft % 60;
+        bigCountdown.textContent = `${initM}:${initS < 10 ? '0' : ''}${initS}`;
 
         function endTimer() {
             clearInterval(interval);
+            banner.style.display = 'none';
             cardEl.classList.remove('timer-active');
             timeDisplay.textContent = `${minutes} min`;
             
@@ -654,7 +538,7 @@
             document.getElementById('total-min').textContent = totalMinutes;
             
             isTimerRunning = false;
-            document.getElementById('player-zone').classList.remove('disabled');
+            playerZone.classList.remove('disabled');
             document.getElementById('instruction').textContent = 'Fini ! Grattez la carte suivante.';
             updateUI();
         }
@@ -668,7 +552,11 @@
             secondsLeft--;
             let m = Math.floor(secondsLeft / 60);
             let s = secondsLeft % 60;
-            timeDisplay.textContent = `${m}:${s < 10 ? '0' : ''}${s}`;
+            
+            // Mise à jour synchrone du gros bandeau et de la carte
+            const formatTime = `${m}:${s < 10 ? '0' : ''}${s}`;
+            bigCountdown.textContent = formatTime;
+            timeDisplay.textContent = formatTime;
 
             if (secondsLeft <= 0) {
                 endTimer();
