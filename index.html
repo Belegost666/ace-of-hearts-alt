@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AS DE CŒUR - Version Alternative</title>
+    <title>AS DE CŒUR</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght=700;900&family=Cormorant+Garamond:wght=400;600&family=Oswald:wght=300;500&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -37,46 +37,16 @@
             content: '';
             position: fixed;
             inset: 0;
-            background-image: repeating-linear-gradient(45deg, transparent, transparent 40px, rgba(201,168,76,0.03) 40px, rgba(201,168,76,0.03) 80px);
+            background-image:
+                repeating-linear-gradient(
+                    45deg,
+                    transparent,
+                    transparent 40px,
+                    rgba(201,168,76,0.03) 40px,
+                    rgba(201,168,76,0.03) 80px
+                );
             pointer-events: none;
             z-index: 0;
-        }
-
-        /* BANDEAU CHRONO FLASHY */
-        .timer-overlay {
-            display: none;
-            width: 100%;
-            max-width: 500px;
-            background: #f39c12;
-            color: #111;
-            font-family: 'Oswald', sans-serif;
-            text-align: center;
-            padding: 12px;
-            font-size: 1.1em;
-            font-weight: bold;
-            border-radius: 4px;
-            margin-bottom: 12px;
-            box-shadow: 0 4px 15px rgba(243, 156, 18, 0.4);
-            border: 2px solid #d35400;
-            z-index: 10;
-            flex-direction: column;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .timer-overlay .big-countdown {
-            font-size: 2.2em;
-            font-family: 'Oswald', sans-serif;
-            font-weight: 500;
-            color: #000;
-            letter-spacing: 2px;
-            line-height: 1;
-            animation: pulseText 1s infinite alternate;
-        }
-
-        @keyframes pulseText {
-            from { transform: scale(1); opacity: 0.9; }
-            to { transform: scale(1.05); opacity: 1; }
         }
 
         .ticket {
@@ -121,16 +91,17 @@
             border-bottom: 3px solid var(--gold);
         }
 
-        .header h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 2.4em;
-            font-weight: 900;
-            color: var(--gold-light);
-            letter-spacing: 0.04em;
-            line-height: 1;
-            text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+        .header::before, .header::after {
+            content: '♥';
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.5em;
+            color: rgba(201,168,76,0.4);
         }
-        .header h1 span { color: white; }
+        .header::before { left: 14px; }
+        .header::after { right: 14px; }
+
         .header-sub {
             font-family: 'Oswald', sans-serif;
             font-weight: 300;
@@ -140,6 +111,18 @@
             text-transform: uppercase;
             margin-bottom: 4px;
         }
+
+        .header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.4em;
+            font-weight: 900;
+            color: var(--gold-light);
+            letter-spacing: 0.04em;
+            line-height: 1;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+        }
+
+        .header h1 span { color: white; }
 
         .body {
             padding: 16px 14px;
@@ -163,6 +146,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            transition: background 0.4s;
         }
 
         .section-title {
@@ -185,8 +169,18 @@
             background: linear-gradient(to right, transparent, var(--gold), transparent);
         }
 
-        .grid-winning { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-bottom: 4px; }
-        .grid-player { display: grid; grid-template-columns: repeat(6, 1fr); gap: 5px; }
+        .grid-winning {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 6px;
+            margin-bottom: 4px;
+        }
+
+        .grid-player {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 5px;
+        }
 
         .card {
             aspect-ratio: 2/2.8;
@@ -201,48 +195,87 @@
             justify-content: center;
             font-size: 0.82em;
             box-shadow: 0 2px 4px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.8);
+            transition: transform 0.15s, box-shadow 0.15s;
             overflow: hidden;
+        }
+
+        .card:not(.scratched):hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
 
         .card .cover {
             position: absolute;
             inset: 0;
-            background: linear-gradient(135deg, #b8860b 0%, #daa520 20%, #ffd700 35%, #daa520 50%, #b8860b 65%, #daa520 80%, #ffd700 100%);
+            background: linear-gradient(135deg,
+                #b8860b 0%, #daa520 20%, #ffd700 35%,
+                #daa520 50%, #b8860b 65%, #daa520 80%, #ffd700 100%);
             z-index: 2;
             display: flex;
             align-items: center;
             justify-content: center;
             border-radius: 3px;
+            transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.35s;
+            transform-origin: top;
         }
 
-        .cover-icon { font-size: 1.4em; opacity: 0.7; }
-        .card.scratched .cover { display: none; }
-
-        .card.is-ace-win { border-color: var(--gold); background: #fffdf0; }
-        .card.win-highlight { border-color: var(--crimson) !important; box-shadow: 0 0 0 2px var(--crimson) !important; }
-        .card.ace-highlight { border-color: #27ae60 !important; box-shadow: 0 0 0 2px #27ae60 !important; }
-        
-        .card.timer-active {
-            border-color: #f39c12 !important;
-            background: #fff5e6 !important;
-            box-shadow: 0 0 8px #f39c12 !important;
+        .cover-icon {
+            font-size: 1.4em;
+            opacity: 0.7;
+            filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3));
         }
 
-        .card.ace-coeur-glow {
-            border-color: var(--crimson-light) !important;
-            animation: aceGlow 1.5s infinite alternate ease-in-out;
+        .card.scratched .cover {
+            transform: rotateX(90deg) scaleY(0);
+            opacity: 0;
+            pointer-events: none;
         }
 
-        @keyframes aceGlow {
-            0% { transform: scale(1); box-shadow: 0 0 10px var(--crimson-light); }
-            100% { transform: scale(1.05); box-shadow: 0 0 25px var(--crimson-light); }
+        .card.is-ace-win {
+            border-color: var(--gold);
+            background: #fffdf0;
         }
 
-        .symbol { font-size: 1.1em; font-weight: 700; font-family: 'Playfair Display', serif; }
-        .minutes { color: var(--crimson-deep); font-size: 0.6em; font-family: 'Oswald', sans-serif; margin-top: 2px; }
+        .card.win-highlight {
+            border-color: var(--crimson) !important;
+            box-shadow: 0 0 0 2px var(--crimson), 0 4px 12px rgba(176,27,27,0.3) !important;
+            animation: winPop 0.4s ease;
+        }
 
-        /* RECONSTRUCTION DU COEUR CENTRAL D'ORIGINE */
-        .heart-wrapper { display: flex; justify-content: center; margin: 4px 0; }
+        @keyframes winPop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .card.ace-highlight {
+            border-color: #27ae60 !important;
+            box-shadow: 0 0 0 2px #27ae60, 0 4px 12px rgba(39,174,96,0.3) !important;
+        }
+
+        .symbol {
+            font-size: 1.1em;
+            font-weight: 700;
+            line-height: 1.1;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .minutes {
+            color: var(--crimson-deep);
+            font-size: 0.6em;
+            font-family: 'Oswald', sans-serif;
+            font-weight: 300;
+            letter-spacing: 0.05em;
+            margin-top: 2px;
+            text-align: center;
+        }
+
+        .heart-wrapper {
+            display: flex;
+            justify-content: center;
+            margin: 4px 0;
+        }
+
         .heart-container {
             width: 80px;
             height: 80px;
@@ -254,17 +287,28 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.2), 0 0 0 1px rgba(201,168,76,0.2);
+            transition: transform 0.2s, box-shadow 0.2s;
+            overflow: hidden;
         }
 
-        .heart-container:not(.disabled):hover { transform: scale(1.05); }
+        .heart-container:not(.disabled):hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 24px rgba(176,27,27,0.35), 0 0 0 1px var(--gold);
+        }
 
-        .heart-svg {
-            width: 50px;
-            height: 50px;
-            fill: var(--crimson);
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
-            transition: opacity 0.3s, transform 0.3s;
+        .heart-container.disabled {
+            cursor: not-allowed;
+            opacity: 0.5;
+            filter: grayscale(0.4);
+        }
+
+        .heart-img {
+            width: 70%;
+            height: auto;
+            transition: opacity 0.4s, transform 0.4s;
+            pointer-events: none;
+            object-fit: contain;
         }
 
         .heart-reveal {
@@ -276,10 +320,50 @@
             font-size: 2.6em;
             opacity: 0;
             z-index: 1;
+            transition: opacity 0.4s;
         }
 
-        .scratched-heart .heart-svg { opacity: 0; transform: scale(0.5); }
-        .scratched-heart .heart-reveal { opacity: 1; }
+        .scratched-heart .heart-img {
+            opacity: 0;
+            transform: scale(0.6);
+        }
+
+        .scratched-heart .heart-reveal {
+            opacity: 1;
+        }
+
+        .timer-display {
+            display: none;
+            margin-top: 10px;
+            text-align: center;
+            background: #2a0808;
+            border: 1px solid var(--gold);
+            padding: 10px;
+            border-radius: 4px;
+            color: var(--gold-light);
+        }
+
+        .timer-time {
+            font-family: 'Oswald', sans-serif;
+            font-size: 2em;
+            font-weight: 500;
+            color: #fff;
+            letter-spacing: 0.05em;
+        }
+
+        .btn-skip {
+            margin-top: 6px;
+            background: var(--gold);
+            color: var(--ink);
+            border: none;
+            padding: 5px 12px;
+            font-family: 'Oswald', sans-serif;
+            font-size: 0.7em;
+            text-transform: uppercase;
+            cursor: pointer;
+            border-radius: 2px;
+            font-weight: bold;
+        }
 
         .result-panel {
             margin-top: 14px;
@@ -288,14 +372,55 @@
             border: 1px solid var(--gold-dark);
             border-radius: 4px;
             text-align: center;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.06);
         }
 
-        .result-label { font-family: 'Oswald', sans-serif; font-size: 0.62em; letter-spacing: 0.25em; text-transform: uppercase; color: var(--crimson-deep); }
-        .result-value { display: flex; align-items: baseline; justify-content: center; gap: 6px; }
-        #total-min { font-family: 'Playfair Display', serif; font-size: 3em; font-weight: 900; color: var(--crimson); line-height: 1; }
-        .result-unit::before { content: 'min'; font-family: 'Oswald', sans-serif; font-size: 0.9em; color: #999; text-transform: uppercase; }
+        .result-label {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 300;
+            letter-spacing: 0.25em;
+            font-size: 0.62em;
+            text-transform: uppercase;
+            color: var(--crimson-deep);
+            margin-bottom: 4px;
+        }
 
-        #bonus-status { margin-top: 8px; font-family: 'Oswald', sans-serif; font-size: 0.78em; color: var(--crimson-deep); min-height: 2.4em; }
+        .result-value {
+            display: flex;
+            align-items: baseline;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        #total-min {
+            font-family: 'Playfair Display', serif;
+            font-size: 3em;
+            font-weight: 900;
+            color: var(--crimson);
+            line-height: 1;
+            transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), color 0.3s;
+        }
+
+        .result-unit::before {
+            content: 'min';
+            font-family: 'Oswald', sans-serif;
+            font-weight: 300;
+            font-size: 0.9em;
+            color: #999;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        #bonus-status {
+            margin-top: 8px;
+            font-family: 'Oswald', sans-serif;
+            font-weight: 500;
+            font-size: 0.78em;
+            letter-spacing: 0.06em;
+            color: var(--crimson-deep);
+            min-height: 2.4em;
+            line-height: 1.5;
+        }
 
         .btn-new-game {
             margin-top: 24px;
@@ -304,25 +429,52 @@
             border: 2px solid var(--gold);
             color: var(--gold-light);
             font-family: 'Oswald', sans-serif;
+            font-weight: 500;
+            letter-spacing: 0.2em;
+            font-size: 0.78em;
             text-transform: uppercase;
+            border-radius: 2px;
             cursor: pointer;
+            position: relative;
+            z-index: 1;
+            overflow: hidden;
+            transition: color 0.3s;
         }
-        .btn-new-game:hover { background: var(--gold); color: var(--ink); }
+
+        .btn-new-game::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--gold);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s;
+            z-index: -1;
+        }
+
+        .btn-new-game:hover { color: var(--ink); }
+        .btn-new-game:hover::before { transform: scaleX(1); }
 
         .disabled { pointer-events: none; opacity: 0.45; }
-        .locked { pointer-events: none !important; }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(16px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .ticket { animation: fadeUp 0.6s ease both; }
+        .btn-new-game { animation: fadeUp 0.6s 0.3s ease both; }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.25); color: var(--crimson-light); }
+            100% { transform: scale(1); }
+        }
+
+        .pulse { animation: pulse 0.4s ease; }
     </style>
 </head>
 <body>
-
-<!-- BANDEAU CHRONO ULTRA VISIBLE -->
-<div id="big-timer-banner" class="timer-overlay">
-    <span>⏳ MASTURBATION OBLIGATOIRE EN COURS</span>
-    <div id="big-countdown-value" class="big-countdown">0:00</div>
-    <button id="skip-btn" style="background: rgba(0,0,0,0.7); border: 1px solid #fff; color: white; padding: 4px 12px; font-size: 0.75em; border-radius: 3px; cursor: pointer; margin-top: 4px; font-family: 'Oswald', sans-serif; text-transform: uppercase;">
-        ⏩ Passer le chrono
-    </button>
-</div>
 
 <div class="ticket" id="game-ticket">
     <div class="perf-top"></div>
@@ -341,19 +493,23 @@
         <div class="section-title">Le Cœur Central</div>
         <div class="heart-wrapper">
             <div id="heart-trigger" class="heart-container disabled" onclick="scratchHeart()">
-                <!-- RETOUR AU RECONSTRUC-DESIGN D'ORIGINE -->
-                <svg class="heart-svg" viewBox="0 0 32 32">
-                    <path d="M16 28.5C16 28.5 2 20.5 2 11.5C2 6.5 6 3.5 10.5 3.5C13.5 3.5 15.2 5.2 16 6.2C16.8 5.2 18.5 3.5 21.5 3.5C26 3.5 30 6.5 30 11.5C30 20.5 16 28.5 16 28.5Z"/>
-                </svg>
+                <img src="coeur.png" alt="Cœur central" class="heart-img"
+                    onerror="this.style.display='none'; this.nextElementSibling.style.opacity='0.25'; this.parentElement.querySelector('.heart-fallback').style.display='flex'">
                 <div class="heart-reveal" id="heart-content"></div>
+                <div class="heart-fallback" style="display:none; position:absolute; inset:0; align-items:center; justify-content:center; font-size:2.8em; opacity:0.4;">♥</div>
             </div>
+        </div>
+
+        <div id="timer-box" class="timer-display">
+            <div class="timer-time" id="timer-text">00:00</div>
+            <button class="btn-skip" onclick="skipTimer()">Passer le chrono</button>
         </div>
 
         <div class="section-title">Vos 18 Cartes</div>
         <div id="player-zone" class="grid-player disabled"></div>
 
         <div class="result-panel">
-            <div class="result-label">Temps accumulé</div>
+            <div class="result-label">Temps cumulé</div>
             <div class="result-value">
                 <span id="total-min">0</span>
                 <span class="result-unit"></span>
@@ -374,17 +530,22 @@
     let winningCards = [];
     let playerCardsData = [];
     let activeAceSuits = [];
+    let initialMinutes = 0;
     let totalMinutes = 0;
     let revealedWinners = 0;
     let revealedPlayerCards = 0;
     let isGameOver = false;
-    let isTimerRunning = false;
+
+    let timerInterval = null;
+    let secondsLeft = 0;
+    let wakeLock = null;
 
     function getRandomTime() {
         const rand = Math.random();
-        if (rand < 0.40) return 2;
-        if (rand < 0.80) return 5;
-        return 10;
+        if (rand < 0.45) return 1;  // 45%
+        if (rand < 0.75) return 2;  // 30%
+        if (rand < 0.95) return 5;  // 20%
+        return 10;                  // 5%
     }
 
     function getRandomCard(excludeSpecific = []) {
@@ -422,23 +583,12 @@
             winningZone.appendChild(div);
         });
 
-        const hasAsCoeur = Math.random() < 0.15;
-        const asCoeurIndex = hasAsCoeur ? Math.floor(Math.random() * 18) : -1;
         const forcedWinIndex = Math.floor(Math.random() * 18);
         const forcedWinCard = winningCards[Math.floor(Math.random() * winningCards.length)];
 
         for (let i = 0; i < 18; i++) {
-            let card;
-            if (i === asCoeurIndex) {
-                card = { v: 'A', s: '❤️', display: 'A❤️', color: 'red' };
-            } else if (i === forcedWinIndex && i !== asCoeurIndex) {
-                card = forcedWinCard;
-            } else {
-                card = getRandomCard(['A❤️']);
-            }
-
+            let card = (i === forcedWinIndex) ? forcedWinCard : getRandomCard();
             let t = getRandomTime();
-            let isAsCoeur = (card.v === 'A' && card.s === '❤️');
             playerCardsData.push({ ...card, time: t, scratched: false });
 
             const div = document.createElement('div');
@@ -449,7 +599,7 @@
                 <div class="cover"><span class="cover-icon">♦</span></div>
                 <div style="color:${card.color}">
                     <div class="symbol">${card.display}</div>
-                    <div class="minutes" id="time-display-${i}">${isAsCoeur ? '💦' : t + ' min'}</div>
+                    <div class="minutes">${t + ' min'}</div>
                 </div>`;
             playerZone.appendChild(div);
         }
@@ -463,19 +613,18 @@
         const card = winningCards[index];
         if (card.v === 'A') {
             activeAceSuits.push(card.s);
-            document.getElementById('instruction').innerHTML = `<b>AS DE ${card.s} !</b>&nbsp; Tous les ${card.s} gagnent !`;
+            document.getElementById('instruction').innerHTML = `<b>AS DE ${card.s} !</b> Tous les ${card.s} gagnent !`;
         }
 
         if (revealedWinners === 5) {
             document.getElementById('player-zone').classList.remove('disabled');
             if (activeAceSuits.length === 0) {
-                document.getElementById('instruction').textContent = 'Étape 2 — Découvrez vos 18 cartes et masturbez-vous au fur et à mesure !';
+                document.getElementById('instruction').textContent = 'Étape 2 — Découvrez vos 18 cartes';
             }
         }
     }
 
     function revealPlayerCard(index) {
-        if (isTimerRunning || isGameOver) return;
         const card = playerCardsData[index];
         const el = document.getElementById(`p-card-${index}`);
         if (card.scratched) return;
@@ -484,91 +633,91 @@
         el.classList.add('scratched');
         revealedPlayerCards++;
 
-        if (card.v === 'A' && card.s === '❤️') {
-            isGameOver = true;
-            el.classList.add('ace-coeur-glow');
-            totalMinutes = 10;
-            document.getElementById('bonus-status').innerHTML = '🔥 <b>AS DE CŒUR EN DIRECT !</b> — Masturbe-toi pendant 10 min, orgasme AUTORISÉ ensuite !';
-            document.getElementById('instruction').textContent = 'PARTIE TERMINÉE';
-            document.getElementById('game-ticket').classList.add('locked');
-            document.getElementById('total-min').textContent = totalMinutes;
-            return;
-        }
-
         const isDirectMatch = winningCards.some(wc => wc.display === card.display);
         const isAceColorBonus = activeAceSuits.includes(card.s);
 
         if (isDirectMatch || isAceColorBonus) {
+            totalMinutes += card.time;
             el.classList.add(isAceColorBonus ? 'ace-highlight' : 'win-highlight');
-            startMasturbationTimer(card.time, index);
-        } else {
-            updateUI();
+        }
+
+        updateUI();
+    }
+
+    function updateUI() {
+        const el = document.getElementById('total-min');
+        el.textContent = totalMinutes;
+        el.classList.remove('pulse');
+        void el.offsetWidth;
+        el.classList.add('pulse');
+
+        if (revealedPlayerCards === 18) {
+            initialMinutes = totalMinutes; // Sauvegarde du temps initial
+            document.getElementById('player-zone').classList.add('disabled');
+            startChrono(totalMinutes);
         }
     }
 
-    function startMasturbationTimer(minutes, cardIndex) {
-        isTimerRunning = true;
-        
-        const playerZone = document.getElementById('player-zone');
-        const banner = document.getElementById('big-timer-banner');
-        const bigCountdown = document.getElementById('big-countdown-value');
-        const timeDisplay = document.getElementById(`time-display-${cardIndex}`);
-        const cardEl = document.getElementById(`p-card-${cardIndex}`);
-        
-        playerZone.classList.add('disabled');
-        cardEl.classList.add('timer-active');
-        
-        // Affichage de l'énorme bandeau chrono tout en haut
-        banner.style.display = 'flex';
-        
-        let secondsLeft = minutes * 60;
-        
-        // Init affichage immédiat
-        let initM = Math.floor(secondsLeft / 60);
-        let initS = secondsLeft % 60;
-        bigCountdown.textContent = `${initM}:${initS < 10 ? '0' : ''}${initS}`;
-
-        function endTimer() {
-            clearInterval(interval);
-            banner.style.display = 'none';
-            cardEl.classList.remove('timer-active');
-            timeDisplay.textContent = `${minutes} min`;
-            
-            totalMinutes += minutes;
-            document.getElementById('total-min').textContent = totalMinutes;
-            
-            isTimerRunning = false;
-            playerZone.classList.remove('disabled');
-            document.getElementById('instruction').textContent = 'Fini ! Grattez la carte suivante.';
-            updateUI();
+    async function startChrono(minutes) {
+        if (minutes <= 0) {
+            unlockHeart();
+            return;
         }
 
-        document.getElementById('skip-btn').onclick = (e) => {
-            e.stopPropagation();
-            endTimer();
-        };
+        secondsLeft = minutes * 60;
+        document.getElementById('timer-box').style.display = 'block';
+        document.getElementById('instruction').textContent = 'Étape 3 — Masturbation en cours…';
+        document.getElementById('bonus-status').innerHTML = '⏳ <b>CHRONO EN COURS</b> — Masturbe-toi jusqu’à la fin du décompte !';
 
-        const interval = setInterval(() => {
+        try {
+            if ('wakeLock' in navigator) {
+                wakeLock = await navigator.wakeLock.request('screen');
+            }
+        } catch (err) {}
+
+        updateTimerDisplay();
+        clearInterval(timerInterval);
+        timerInterval = setInterval(() => {
             secondsLeft--;
-            let m = Math.floor(secondsLeft / 60);
-            let s = secondsLeft % 60;
-            
-            // Mise à jour synchrone du gros bandeau et de la carte
-            const formatTime = `${m}:${s < 10 ? '0' : ''}${s}`;
-            bigCountdown.textContent = formatTime;
-            timeDisplay.textContent = formatTime;
+            updateTimerDisplay();
 
             if (secondsLeft <= 0) {
-                endTimer();
+                clearInterval(timerInterval);
+                finishChrono();
             }
         }, 1000);
     }
 
-    function updateUI() {
-        if (revealedPlayerCards === 18 && !isGameOver) {
-            document.getElementById('heart-trigger').classList.remove('disabled');
-            document.getElementById('instruction').textContent = 'Étape finale — Découvrez la sentence du Cœur Central';
+    function updateTimerDisplay() {
+        const m = Math.floor(secondsLeft / 60).toString().padStart(2, '0');
+        const s = (secondsLeft % 60).toString().padStart(2, '0');
+        document.getElementById('timer-text').textContent = `${m}:${s}`;
+    }
+
+    function skipTimer() {
+        clearInterval(timerInterval);
+        finishChrono();
+    }
+
+    function finishChrono() {
+        if (wakeLock) {
+            wakeLock.release().then(() => { wakeLock = null; });
         }
+        document.getElementById('timer-box').style.display = 'none';
+
+        if ("vibrate" in navigator) {
+            navigator.vibrate([500, 250, 500]);
+        }
+
+        unlockHeart();
+    }
+
+    function unlockHeart() {
+        const heart = document.getElementById('heart-trigger');
+        heart.classList.remove('disabled');
+        heart.classList.remove('scratched-heart');
+        document.getElementById('instruction').textContent = 'Étape finale — Cliquez sur le Cœur Central';
+        document.getElementById('bonus-status').innerHTML = '🔔 <b>Temps écoulé !</b> Révélez le Cœur Central pour découvrir votre sort.';
     }
 
     function scratchHeart() {
@@ -580,47 +729,31 @@
         const content = document.getElementById('heart-content');
         const rand = Math.random();
 
-        if (rand < 0.15) {
-            content.textContent = '💥';
-            let coups = totalMinutes * 2;
-            document.getElementById('bonus-status').innerHTML = 
-                `💥 <b>CHÂTIMENT CORPOREL !</b> Tu as cumulé ${totalMinutes} min de plaisir. Tu reçois immédiatement <b>${coups} coups de cravache</b> (2x le temps cumulé). ORGASME INTERDIT !`;
-        } 
-        else if (totalMinutes >= 20) {
-            const subRand = Math.random();
-            if (subRand < 0.20) {
-                content.textContent = '💦';
-                document.getElementById('bonus-status').innerHTML = '💦 <b>FÉLICITATIONS !</b> Orgasme AUTORISÉ immédiatement !';
-            } else if (subRand < 0.50) {
-                content.textContent = '🥀';
-                document.getElementById('bonus-status').innerHTML = '🥀 <b>ORGASME RUINÉ !</b> Amène-toi au bord du gouffre et gâche tout au dernier moment !';
-            } else {
-                content.textContent = '❌';
-                document.getElementById('bonus-status').innerHTML = '❌ <b>ORGASME REFUSÉ !</b> Tout ce temps pour rien. Arrête-toi là et rhabille-toi.';
-            }
-        } 
-        else {
-            const subRand = Math.random();
-            if (subRand < 0.15) {
-                content.textContent = '💦';
-                document.getElementById('bonus-status').innerHTML = '💦 <b>LUCKY !</b> Même avec un petit score, l\'orgasme est AUTORISÉ !';
-            } else if (subRand < 0.45) {
-                content.textContent = '😈';
-                document.getElementById('bonus-status').innerHTML = `😈 <b>MALUS DOUBLE CORVÉE !</b> Tu dois retourner te masturber à nouveau pendant <b>${totalMinutes} min supplémentaires</b>. Orgasme strictement INTERDIT à la fin !`;
-                totalMinutes *= 2;
-            } else if (subRand < 0.75) {
-                content.textContent = '🤡';
-                document.getElementById('bonus-status').innerHTML = `🤡 <b>PIÈGE DU CLOWN !</b> Retourne te masturber pendant <b>${totalMinutes} min supplémentaires</b>... et l'orgasme sera RUINÉ au bout du chrono !`;
-                totalMinutes *= 2;
-            } else {
-                content.textContent = '❌';
-                document.getElementById('bonus-status').innerHTML = '❌ <b>ORGASME REFUSÉ !</b> Pas assez de temps accumulé. Arrêt immédiat.';
-            }
-        }
+        if (rand < 0.25) {
+            // 25% : Orgasme autorisé
+            content.textContent = '💦';
+            document.getElementById('bonus-status').innerHTML = '💦 <b>ORGASME AUTORISÉ !</b> Tu peux enfin jouir !';
+            document.getElementById('instruction').textContent = 'VICTOIRE — JEU TERMINÉ';
+            isGameOver = true;
+        } else if (rand < 0.60) {
+            // 35% : Jeu terminé sans orgasme
+            content.textContent = '❌';
+            document.getElementById('bonus-status').innerHTML = '❌ <b>ORGASME REFUSÉ !</b> Masturbation terminée pour rien…';
+            document.getElementById('instruction').textContent = 'JEU TERMINÉ';
+            isGameOver = true;
+        } else {
+            // 40% : Recommencer la même durée (temps cumulé doublé)
+            content.textContent = '😈';
+            totalMinutes += initialMinutes;
+            document.getElementById('total-min').textContent = totalMinutes;
 
-        document.getElementById('total-min').textContent = totalMinutes;
-        document.getElementById('instruction').textContent = 'Jeu terminé.';
-        isGameOver = true;
+            document.getElementById('bonus-status').innerHTML = `😈 <b>MALUS : RECOMMENCE !</b> Masturbe-toi à nouveau pendant ${initialMinutes} min !`;
+
+            trigger.classList.add('disabled');
+            setTimeout(() => {
+                startChrono(initialMinutes);
+            }, 2000);
+        }
     }
 
     init();
